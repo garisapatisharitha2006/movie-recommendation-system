@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Movie Mood 💖</title>
+
+<!-- 🌸 Link CSS -->
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<!-- ✨ Floating blobs -->
+<div class="blob"></div>
+<div class="blob"></div>
+<div class="blob"></div>
+
+<!-- 🌸 Navbar -->
+<div class="navbar">
+    <h1>🎬 Movie Mood</h1>
+    <a href="/logout">Logout</a>
+</div>
+
+<!-- 🔍 Search + Filters -->
+<form method="GET" class="search-box">
+    <input type="text" name="search" placeholder="Search movies...">
+
+    <select name="language">
+        <option value="">Language</option>
+        <option>English</option>
+        <option>Tamil</option>
+        <option>Hindi</option>
+        <option>Korean</option>
+        <option>Japanese</option>
+    </select>
+
+    <select name="genre">
+        <option value="">Genre</option>
+        <option>Action</option>
+        <option>Drama</option>
+        <option>Romance</option>
+        <option>Comedy</option>
+        <option>Thriller</option>
+        <option>Sci-Fi</option>
+    </select>
+
+    <button class="btn">Search</button>
+</form>
+
+<!-- 💾 Preferences -->
+<form action="/save_preferences" method="POST" class="search-box">
+    <select name="language">
+        <option>English</option>
+        <option>Tamil</option>
+        <option>Hindi</option>
+        <option>Korean</option>
+        <option>Japanese</option>
+    </select>
+
+    <select name="genre">
+        <option>Action</option>
+        <option>Drama</option>
+        <option>Romance</option>
+        <option>Comedy</option>
+        <option>Thriller</option>
+        <option>Sci-Fi</option>
+    </select>
+
+    <button class="btn">Save Preferences 💾</button>
+</form>
+
+<!-- ✨ Recommended -->
+<div class="section">
+    <h2>✨ Recommended For You</h2>
+    <div class="scroll">
+        {% for movie in recommended %}
+        <div class="card">
+            <img src="{{ url_for('static', filename='images/' + movie.image) }}">
+            <div class="title">{{ movie.title }}</div>
+            <div class="rating">⭐ {{ movie.rating }}</div>
+            <a href="/add/{{ movie.id }}" class="btn">Add 💕</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- 🎬 All Movies -->
+<div class="section">
+    <h2>🎬 Explore Movies</h2>
+    <div class="scroll">
+        {% for movie in movies %}
+        <div class="card">
+            <img src="{{ url_for('static', filename='images/' + movie.image) }}">
+            <div class="title">{{ movie.title }}</div>
+            <div class="rating">⭐ {{ movie.rating }}</div>
+            <a href="/add/{{ movie.id }}" class="btn">Add 💕</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- ❤️ Watchlist -->
+<div class="section">
+    <h2>❤️ Your Watchlist</h2>
+    <div class="scroll">
+        {% for movie in current_user.movies %}
+        <div class="card">
+            <img src="{{ url_for('static', filename='images/' + movie.image) }}">
+            <div class="title">{{ movie.title }}</div>
+            <a href="/remove/{{ movie.id }}" class="btn btn-remove">Remove ❌</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+</body>
+</html>
